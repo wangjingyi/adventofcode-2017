@@ -19,7 +19,7 @@ fun solve1() : Int {
 
         val snapshot = reallocate(l)
         if(seen.contains(snapshot))
-            return steps + 1;
+            return steps + 1
         else {
             seen.add(snapshot)
             return distribute(l, seen,steps + 1)
