@@ -16,8 +16,7 @@ private fun buildMap() : Map<String, Prog> {
             listOf<String>()
         else
             it!!.groupValues[3].split(""",\s*""".toRegex()).map { it.trim() }
-
-
+        
         val name = it!!.groupValues[1]
         val weight = Integer.parseInt(it!!.groupValues[2])
         val p = Prog(name, weight)
@@ -34,7 +33,6 @@ fun solve2() : Int {
 
     while(!stack.isEmpty()) {
         var node = stack.peek()
-
         when {
             node.children.size == 0 -> stack.pop()
             node.children.first().weight == 0 -> for (child in node.children) {
@@ -56,7 +54,6 @@ fun solve2() : Int {
                 }
                 stack.pop()
             }
-
         }
     }
     return 0
