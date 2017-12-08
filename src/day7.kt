@@ -6,7 +6,6 @@ private val M : Map<String, Prog> by lazy {
     buildMap()
 }
 
-
 data class Prog(val name: String, var weight: Int = 0, var parent: Prog? = null, var children: List<Prog> = listOf())
 
 private fun buildMap() : Map<String, Prog> {
@@ -16,7 +15,7 @@ private fun buildMap() : Map<String, Prog> {
             listOf<String>()
         else
             it!!.groupValues[3].split(""",\s*""".toRegex()).map { it.trim() }
-        
+
         val name = it!!.groupValues[1]
         val weight = Integer.parseInt(it!!.groupValues[2])
         val p = Prog(name, weight)
