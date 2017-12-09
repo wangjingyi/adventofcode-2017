@@ -1,6 +1,9 @@
 package main
 
-
 fun main(args: Array<String>) {
-    println(day8.solve2())
+    val (score, count) = day9.solve()
+    println(score)
+    println(count)
 }
+
+

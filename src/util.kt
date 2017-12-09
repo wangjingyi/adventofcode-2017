@@ -4,6 +4,7 @@ import java.io.File
 import kotlin.coroutines.experimental.buildSequence
 
 fun readLines(path: String = "src/input.txt") = File(path).readLines()
+fun readText(path: String = "src/input.txt") = File(path).readText()
 
 data class Point(val x: Int, val y: Int)
 
