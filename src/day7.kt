@@ -21,7 +21,6 @@ private fun buildMap() : Map<String, Prog> {
         val p = Prog(name, weight)
         p.children = childrenNames.map { Prog(name = it, parent = p)}
         m[name] = p
-
     }
     return m.toMap()
 }
