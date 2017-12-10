@@ -19,3 +19,16 @@ fun <T> circleIndex(l: List<T>, start: Int = 0) = buildSequence {
         idx = (idx + 1) % l.size
     }
 }
+
+fun <T> MutableList<T>.swapRegion(start: Int = 0, length: Int) : MutableList<T> {
+    val end = start + length - 1
+    val middle = (start + end) / 2
+    val cycle = this.size
+
+    for(i in start..middle) {
+        val t = this[i % cycle]
+        this[i % cycle] = this[(end - (i - start)) % cycle]
+        this[(end - (i - start)) % cycle] = t
+    }
+    return this
+}
