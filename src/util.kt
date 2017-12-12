@@ -32,3 +32,17 @@ fun <T> MutableList<T>.swapRegion(start: Int = 0, length: Int) : MutableList<T> 
     }
     return this
 }
+
+fun <T, R> Collection<T>.scanl(initial: R, transform: (R, T) -> R): Collection<R> {
+    var acc = initial
+    val c = mutableListOf(initial)
+
+    for(e in this)
+        acc = transform(acc, e).apply {c.add(this)}
+
+    return c
+}
+
+fun <T, R> Collection<T>.scanr(initial: R, transform: (T, R) -> R): Collection<R> {
+    return this.reversed().scanl(initial) {r, t -> transform(t, r) }
+}
