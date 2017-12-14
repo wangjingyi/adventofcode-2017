@@ -7,15 +7,7 @@ fun solve1() : Int {
     return value[0] * value[1]
 }
 
-fun solve2() : String {
-    var lens = ArrayDeque(lengths())
-    var d = Round(start = 0, skip = 0, value = (0..255).toMutableList())
-    for(i in 1..64) {
-        d = hash(d.value.toMutableList(), d.start, d.skip, lens.clone())
-    }
-    var dense = (0..15).map {d.value.subList(it * 16, it * 16 + 16)}.map(::xors)
-    return dense.map {String.format("%02X", it)}.joinToString("")
-}
+fun solve2() : String = toHash("46,41,212,83,1,255,157,65,139,52,39,254,2,86,0,204")
 
 data class Round(val start: Int, val skip: Int, val value: List<Int>)
 
@@ -29,6 +21,15 @@ private tailrec fun hash(l: MutableList<Int>, start: Int = 0, skip: Int = 0, len
 }
 
 
-private fun lengths(input: String = "46,41,212,83,1,255,157,65,139,52,39,254,2,86,0,204") = input.map {it.toInt()}.plus(arrayOf(17, 31, 73, 47, 23))
+fun toHash(str: String) : String{
+    var lens = ArrayDeque(lengths(str))
+    var d = Round(start = 0, skip = 0, value = (0..255).toMutableList())
+    for(i in 1..64) {
+        d = hash(d.value.toMutableList(), d.start, d.skip, lens.clone())
+    }
+    var dense = (0..15).map {d.value.subList(it * 16, it * 16 + 16)}.map(::xors)
+    return dense.map {String.format("%02X", it)}.joinToString("")
+}
+private fun lengths(input: String) = input.map {it.toInt()}.plus(arrayOf(17, 31, 73, 47, 23))
 
 private fun xors(l: List<Int>) = l.reduce{a, b -> a xor b}
