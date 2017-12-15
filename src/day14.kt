@@ -43,3 +43,51 @@ fun update(disk: List<MutableList<Char>>, i: Int, j: Int, p: Pair<Int, Int>, m: 
         }
     }
 }
+
+//====================================
+// find & union
+//====================================
+
+typealias Disk = MutableMap<Pair<Int, Int>, Pair<Int, Int>>
+
+fun Disk.find(p: Pair<Int, Int>) : Pair<Int, Int> {
+    val parent = this.getOrDefault(p, p)
+    if (p != parent)
+        this[p] = find(parent)
+    else
+        this[p] = p
+
+    return this[p]!!
+}
+
+fun Disk.union(p1: Pair<Int, Int>, p2: Pair<Int, Int>) {
+    val idx1 = this.find(p1)
+    val idx2 = this.find(p2)
+    if(idx1 != idx2)
+        this[idx1] = idx2
+}
+
+fun buildSet(str: String): MutableMap<Pair<Int,Int>, Pair<Int, Int>> {
+    val grid = mutableMapOf<Pair<Int, Int>, Pair<Int, Int>>()
+    val d = disk(str)
+
+    for((i, row) in d.withIndex())
+        for((j, ch) in row.withIndex()) {
+            if(ch == '0')
+                continue
+
+            grid.union(Pair(i, j), Pair(i, j))
+            if(i - 1 >= 0 && d[i - 1][j] == '1')
+                grid.union(Pair(i - 1, j), Pair(i, j))
+            if(j - 1 >= 0 && d[i][j - 1] == '1')
+                grid.union(Pair(i, j - 1), Pair(i, j))
+
+        }
+    return grid
+}
+
+fun solve(str: String) =
+    buildSet(str).apply {
+        for((k, _) in this)
+            this.find(k)
+    }
