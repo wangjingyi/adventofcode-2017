@@ -40,7 +40,7 @@ private fun move(dancers: MutableMap<Int, Int>, inst: Pair<Char, IntArray>) : Mu
 private fun dance(start: MutableMap<Int, Int>)  = Instructions.fold(start, ::move)
 private fun MutableMap<Int, Int>.backToString() = this.map { it.value to it.key }.sortedBy { it.first }.map { it.second.toChar() }.joinToString("")
 
-private tailrec fun cycle(d: MutableMap<Int, Int> = dance(START.toMutableMap()), count: Int = 1):Int =
+private tailrec fun cycle(d: MutableMap<Int, Int> = dance(START.toMutableMap()), count: Int = 1): Int =
     if(d == START)
         count
     else
