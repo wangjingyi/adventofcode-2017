@@ -1,8 +1,7 @@
 package main
 
 fun main(args: Array<String>) {
-    println(day15.solve1())
-    println(day15.solve2())
+    println(day16.solve1())
+    println(day16.solve2())
 }
-
 
