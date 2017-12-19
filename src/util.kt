@@ -6,7 +6,16 @@ import kotlin.coroutines.experimental.buildSequence
 fun readLines(path: String = "src/input.txt") = File(path).readLines()
 fun readText(path: String = "src/input.txt") = File(path).readText()
 
-data class Point(val x: Int, val y: Int)
+data class Point(val x: Int, val y: Int) {
+    operator fun plus(pt: Point) = Point(x + pt.x, y + pt.y)
+    operator fun unaryMinus() = Point(-x, -y)
+}
+
+val UP = Point(0, -1)
+val DOWN = Point(0, 1)
+val LEFT = Point(-1, 0)
+val RIGHT = Point(1, 0)
+val ALLDIR = setOf(UP, DOWN, LEFT, RIGHT)
 
 fun Point.neighbors() = listOf(Point(this.x - 1, this.y + 1), Point(this.x, this.y + 1), Point(this.x + 1, this.y + 1),
         Point(this.x - 1, this.y), Point(this.x + 1, this.y),
@@ -45,4 +54,18 @@ fun <T, R> Collection<T>.scanl(initial: R, transform: (R, T) -> R): Collection<R
 
 fun <T, R> Collection<T>.scanr(initial: R, transform: (T, R) -> R): Collection<R> {
     return this.reversed().scanl(initial) {r, t -> transform(t, r) }
+}
+
+fun <T> List<List<T>>.makeGrid(filling: T, side: String = "right"): List<List<T>> {
+    val max = this.maxBy {it.size }!!.size
+    val ret = mutableListOf<List<T>>()
+    for(l in this) {
+        val padding = MutableList(max - l.size ) {filling}
+        when(side) {
+            "left" -> ret.add(padding + l)
+            "right" -> ret.add(l + padding)
+            else -> ret.add(padding.take(padding.size / 2) + l + padding.drop(padding.size / 2))
+        }
+    }
+    return ret
 }
