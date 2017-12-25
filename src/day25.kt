@@ -12,14 +12,17 @@ fun solve1() : Int {
     return state.count()
 }
 
-sealed class State(open val tape: MutableMap<Int, Int>, open val cur: Int){
+sealed class State(){
+    abstract val tape: MutableMap<Int, Int>
+    abstract val cur: Int
+    
     abstract fun next() : State
     fun right(cur: Int) = cur + 1
     fun left(cur: Int) = cur - 1
     fun count(): Int = tape.values.count { it == 1 }
 }
 
-data class A(override val tape: MutableMap<Int, Int>, override val cur: Int) : State(tape, cur) {
+data class A(override val tape: MutableMap<Int, Int>, override val cur: Int) : State() {
     override fun next() : State {
         val cv = tape.getValue(cur)
 
@@ -34,7 +37,7 @@ data class A(override val tape: MutableMap<Int, Int>, override val cur: Int) : S
     }
 }
 
-data class B(override val tape: MutableMap<Int, Int>, override val cur: Int) : State(tape, cur) {
+data class B(override val tape: MutableMap<Int, Int>, override val cur: Int) : State() {
     override fun next() : State {
         val cv = tape.getValue(cur)
         if(cv == 0) {
@@ -48,7 +51,7 @@ data class B(override val tape: MutableMap<Int, Int>, override val cur: Int) : S
     }
 }
 
-data class C(override val tape: MutableMap<Int, Int>, override val cur: Int) : State(tape, cur) {
+data class C(override val tape: MutableMap<Int, Int>, override val cur: Int) : State() {
     override fun next() : State {
         val cv = tape.getValue(cur)
 
@@ -63,7 +66,7 @@ data class C(override val tape: MutableMap<Int, Int>, override val cur: Int) : S
     }
 }
 
-data class D(override val tape: MutableMap<Int, Int>, override val cur: Int) : State(tape, cur) {
+data class D(override val tape: MutableMap<Int, Int>, override val cur: Int) : State() {
     override fun next() : State {
         val cv = tape.getValue(cur)
 
@@ -78,7 +81,7 @@ data class D(override val tape: MutableMap<Int, Int>, override val cur: Int) : S
     }
 }
 
-data class E(override val tape: MutableMap<Int, Int>, override val cur: Int) : State(tape, cur) {
+data class E(override val tape: MutableMap<Int, Int>, override val cur: Int) : State() {
     override fun next() : State {
         val cv = tape.getValue(cur)
 
@@ -93,7 +96,7 @@ data class E(override val tape: MutableMap<Int, Int>, override val cur: Int) : S
     }
 }
 
-data class F(override val tape: MutableMap<Int, Int>, override val cur: Int) : State(tape, cur) {
+data class F(override val tape: MutableMap<Int, Int>, override val cur: Int) : State() {
     override fun next() : State {
         val cv = tape.getValue(cur)
 
