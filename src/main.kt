@@ -1,6 +1,8 @@
 package main
 
 fun main(args: Array<String>) {
-    println(day21.solve1())
-    println(day21.solve2())
+    for(l in util.combination2(listOf(1, 2, 3)) {it.isNotEmpty() && it[0] == 1})
+        println(l)
 }
+
+

@@ -69,3 +69,68 @@ fun <T> List<List<T>>.makeGrid(filling: T, side: String = "right"): List<List<T>
     }
     return ret
 }
+
+fun <T> permutation(l: List<T>, predicate: (List<T>) -> Boolean = {true}) : Sequence<List<T>> {
+
+    fun permutate(sofar: List<T> = listOf(), remaining: List<T>) : Sequence<List<T>> {
+
+        return buildSequence {
+            if (remaining.size == 0 && predicate(sofar))
+                yield(sofar)
+            else if(remaining.size > 0)
+                for ((i, v) in remaining.withIndex()) {
+                    val nremaining = remaining.take(i) + remaining.drop(i + 1)
+                    yieldAll(permutate(sofar + v, nremaining))
+                }
+        }
+    }
+
+    return permutate(remaining = l)
+}
+
+fun <T> combination(l: List<T>, predicate: (List<T>) -> Boolean = {true}): Sequence<List<T>> {
+    fun combine(sofar: List<T> = listOf(), remaining: List<T>) : Sequence<List<T>> {
+        return buildSequence {
+            if (remaining.size == 0 && predicate(sofar))
+                    yield(sofar)
+            else if(remaining.size > 0){
+                val nremaining = remaining.drop(1)
+                yieldAll(combine(sofar + remaining.first(), nremaining))
+                yieldAll(combine(sofar, nremaining))
+            }
+        }
+    }
+    return combine(remaining = l)
+}
+
+fun <T> permutation2(l: List<T>, predicate: (List<T>) -> Boolean = {true}) : List<List<T>> {
+
+    fun permutate(sofar: List<T> = listOf(), remaining: List<T>, collector: MutableList<List<T>> = mutableListOf()) : List<List<T>> {
+
+        if(remaining.size == 0 && predicate(sofar))
+            collector.add(sofar)
+        else if(remaining.size > 0)
+            for ((i, v) in remaining.withIndex()) {
+                val nremaining = remaining.take(i) + remaining.drop(i + 1)
+                permutate(sofar + v, nremaining, collector)
+            }
+        return collector
+    }
+
+    return permutate(remaining = l)
+}
+
+fun <T> combination2(l: List<T>, choose: (List<T>) -> Boolean = {true}): List<List<T>> {
+
+    fun combine(sofar: List<T> = listOf(), remaining: List<T>, collector: MutableList<List<T>> = mutableListOf()) : List<List<T>> {
+        if(remaining.size == 0 && choose(sofar))
+                collector.add(sofar)
+        else if(remaining.size > 0) {
+            val nremaining = remaining.drop(1)
+            combine(sofar + remaining.first(), nremaining, collector)
+            combine(sofar, nremaining, collector)
+        }
+        return collector
+    }
+    return combine(remaining = l)
+}
