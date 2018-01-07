@@ -134,3 +134,37 @@ fun <T> combination2(l: List<T>, choose: (List<T>) -> Boolean = {true}): List<Li
     }
     return combine(remaining = l)
 }
+
+fun <T> permutate(arr: List<T>): Sequence<List<T>> {
+    var l = arr.toMutableList()
+
+    fun swap(i: Int, j: Int) : MutableList<T>{
+        var t = l[i]
+        l[i] = l[j]
+        l[j] = t
+        return l
+    }
+
+    return buildSequence {
+        if (l.size == 0)
+            yield(l.toList())
+        else
+            for (i in 0 until l.size) {
+                swap(0, i)
+                for(item in permutate(l.slice(1 until l.size)))
+                    yield(listOf(l[0]) + item)
+            }
+    }
+}
+
+fun <T> combine(l: List<T>): Sequence<List<T>> {
+    return buildSequence {
+        if(l.size == 0)
+            yield(l)
+        else {
+            yieldAll(combine(l.slice(1 until l.size)))
+            for(item in combine(l.slice(1 until l.size)))
+                yield(listOf(l[0]) + item)
+        }
+    }
+}
